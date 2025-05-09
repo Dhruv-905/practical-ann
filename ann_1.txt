@@ -1,0 +1,73 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Binary step activation function
+def binaryStep(x):
+    '''It returns '0' if the input is less than zero otherwise it returns one'''
+    return np.heaviside(x, 1)
+
+# Plotting the binary step function
+x = np.linspace(-10, 10, 100)
+plt.plot(x, binaryStep(x))
+plt.axis('tight')
+plt.title('Activation Function: binaryStep')
+plt.show()
+
+# Linear activation function
+def linear(x):
+    '''y = f(x) it returns the input as it is'''
+    return x
+
+# Plotting the linear activation function
+x = np.linspace(-10, 10, 100)
+plt.plot(x, linear(x))
+plt.axis('tight')
+plt.title('Activation Function :Linear')
+plt.show()
+
+# Sigmoid activation function
+def sigmoid(x):
+    '''It returns 1/(1+exp(-x)), where the values lie between zero and one'''
+    return 1 / (1 + np.exp(-x))
+
+# Plotting the sigmoid activation function
+x = np.linspace(-10, 10, 100)
+plt.plot(x, sigmoid(x))
+plt.axis('tight')
+plt.title('Activation Function :Sigmoid')
+plt.show()
+
+# Tanh activation function
+def tanh(x):
+    '''It returns the value (1 - exp(-2x)) / (1 + exp(-2x)), and the value returned lies between -1 and 1'''
+    return np.tanh(x)
+
+x = np.lincspace(-10,10)
+plt.plot(x, tanh(X))
+plt.axis('tight')
+plt.title('Activation Function :Tanh')
+plt.show()
+
+def RELU(x):
+    x1=[]
+    for I in x:
+	if i<0:
+	    x1.append(0)
+	else:
+	    x1.append(1)
+    return x1
+
+x = np.linspace(-10,10)
+plt.plot(x, RELU(x))
+plt.axis('tight')
+plt.title('Activation Function "RELU')
+plt.show()
+
+def SoftMax(x):
+    return np,exp(x) / np.sum(np.exp(x), axis=0)
+
+x = np.linspace(-10,10)
+plt.plot(x, SoftMax(x))
+plt.axis('tight')
+plt.title('Activation Function :Softmax')
+plt.show()
