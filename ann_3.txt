@@ -1,0 +1,73 @@
+import numpy as np
+
+def initialForwardDirectionWeightFormula(N):
+    return 1 / (1 + N)
+
+def initialForwardDirectionWeightMatrix(N, M):
+    return np.ones((N, M), dtype=np.uint8)
+
+def previousBackwardWeight(forwardWeightMatrix):
+    return forwardWeightMatrix.copy()
+
+def numberOfRowsAndColumns(matrix):
+    return matrix.shape
+
+def calculateYList(N, inputList, forwardWeightMatrix):
+    outputY = []
+    for i in range(N):
+        total = 0
+        for j in range(N):
+            total += forwardWeightMatrix[j][i] * inputList[j]
+        outputY.append(total)
+    return outputY
+
+def maxYListInValue(YList):
+    return max(YList)
+
+def fitnessTestS1(inputList):
+    return sum(inputList)
+
+def fitnessTestS2(N, weightMatrix, inputList, S1, p, YMax):
+    S2 = []
+    for i in range(N):
+        total = 0
+        for j in range(N):
+            total += weightMatrix[j][i] * inputList[j]
+        S2.append(total)
+
+    s2 = S2[0] / S1 if S1 != 0 else 0
+
+    if s2 >= p:
+        return updateForwardAndBackwardWeights(weightMatrix, inputList, YMax)
+    else:
+        return None, None
+
+def updateForwardAndBackwardWeights(weightMatrix, inputList, YMax):
+    N = len(inputList)
+    newBackwardWeight = [weightMatrix[i][0] * inputList[i] for i in range(N)]
+
+    newForwardWeight = []
+    for i in range(N):
+        series_sum = sum(newBackwardWeight[i] * inputList[j] for j in range(N))
+        new_w = (newBackwardWeight[i] * inputList[i]) / (YMax + series_sum) if (YMax + series_sum) != 0 else 0
+        newForwardWeight.append(new_w)
+
+    return newBackwardWeight, newForwardWeight
+
+# Example usage
+if __name__ == '__main__':
+    N = 3
+    inputList = [1, 0, 1]
+    forwardWeightMatrix = initialForwardDirectionWeightMatrix(N, N)
+    YList = calculateYList(N, inputList, forwardWeightMatrix)
+    YMax = maxYListInValue(YList)
+    S1 = fitnessTestS1(inputList)
+    p = 0.8
+
+    newBackwardWeight, newForwardWeight = fitnessTestS2(N, forwardWeightMatrix, inputList, S1, p, YMax)
+
+    if newBackwardWeight is not None:
+        print('New Backward Weight:', newBackwardWeight)
+        print('New Forward Weight:', newForwardWeight)
+    else:
+        print('Pattern rejected based on vigilance parameter.')
